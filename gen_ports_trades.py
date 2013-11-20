@@ -11,7 +11,7 @@ import numpy as np
 
 def get_data():
     ports = [100,101,102,104,110,115,118,400,402,405,410,800,801,802,804,810,815,818]
-    #print random.randrange(200,3000)
+    ports = ports[:3]
     
     
     base = datetime.datetime.today()
@@ -43,21 +43,24 @@ def test():
 
 
 def get_indexed_data(data, idx):
-    #create an indexed hash with unique values
+    """based on an list of list, creates an indexed hash for element at idx
+    create an indexed hash with unique values"""
     idx_values = {}
-    dt = set([a[idx] for a in data]) #get unique dates
-    for i, v in enumerate(sorted(dt)): #create hash that returns the index of a date
-        idx_values[v] = i
+    dt = sorted(set([a[idx] for a in data])) #get unique items
+    for i, v in enumerate(dt): #create hash that returns the index of a item
+        idx_values[v] = i 
     
-    return idx_values
+    return idx_values ,dt
 
 def convert_to_matrix(data):
+    """ based on list of 3 values list, create a matrix 
+    where value 1 is column and value 2 is row"""
     
     #get indexed values for the Date - index 0
-    dts = get_indexed_data(data,0)
+    dts,dt = get_indexed_data(data,0)
 
     #create an index hash with unique ports - index 1
-    pts = get_indexed_data(data,1)    
+    pts,pt = get_indexed_data(data,1)    
     
     ##Note needed
     #print dts
@@ -85,20 +88,30 @@ def convert_to_matrix(data):
     # for y in matrix:
     #     print y   
 
-def save_matrix(matrix):
-    np.savetxt("test.csv", matrix, delimiter=",")
+def save_matrix(matrix, filen):
+    np.savetxt(filen, matrix, delimiter=",")
     return 
  
-def save_dates(dts):
-    with open('dates.csv','wb') as cfile:
-        cfile.write('\n'.join(dts))
+def save_list(lst, filen):
+    with open(filen,'wb') as cfile:
+        cfile.write('\n'.join(lst))
     return   
 
 
 
-if __name__ == 'main':
-    
-    data=get_data()[:10]
-    print data
-    matrix=convert_to_matrix(data)    
-    print "done"
+###########################3
+# main
+     
+data=get_data()[:21]
+
+print '-'*40
+print data
+print '-'*40
+print get_indexed_data(data, 0)
+print '-'*40
+print get_indexed_data(data, 1)
+print '-'*40
+matrix=convert_to_matrix(data)
+print matrix    
+print "done"   
+
