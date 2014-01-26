@@ -4,8 +4,9 @@ Created on Nov 19, 2013
 @author: rod
 '''
 
-import random
 import datetime
+import random
+
 import numpy as np
 
 
@@ -59,18 +60,21 @@ def convert_to_matrix(data):
     dts = get_indexed_data(data,0)
 
     #create an index hash with unique ports - index 1
-    pts = get_indexed_data(data,1)    
+    pts = get_indexed_data(data,1)   
+    
+    print len(dts[0]),len(pts[0]) 
   
     #defines a matrix with zero values
-    matrix = np.zeros((len(pts),len(dts)), dtype='int32')
+    matrix = np.zeros((len(pts[0]),len(dts[0])), dtype='int32')
      
     #puts in the matrix the list of (date,port,#) 
     for x in data:
         try:
-            matrix[pts[x[1]]][dts[x[0]]] = x[2]
+            matrix[pts[0][x[1]]][dts[0][x[0]]] = x[2]
             # print "(%s,%s)(%d,%d)->%d"%(x[1],x[0],pts[x[1]],dts[x[0]] , x[2])
         except:
-            print "Failed:",x
+            #print "(%s,%s)(%d,%d)->%d"%(x[1],x[0],pts[x[1]],dts[x[0]] , x[2])
+            print "Failed (x,pts[x[1]],dts[x[0]], x[2]):",x #,pts[x[1]],dts[x[0]], x[2]
      
     return matrix
     # for y in matrix:
@@ -93,7 +97,7 @@ def save_list(lst, filen):
 # main
 
     
-data=get_data()[:21]
+data=get_data()#[:21]
 
 print '-'*40
 print data
