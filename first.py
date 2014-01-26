@@ -13,6 +13,7 @@
 
 from string import maketrans
 
+
 lst=['rod','test','esta','e','a','historia','de','um','teste']
 lst2=['esta','bagaca','foi','criada','por','um','rod']
 
